@@ -7,7 +7,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class DRONEGAME_API AGameplayGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
