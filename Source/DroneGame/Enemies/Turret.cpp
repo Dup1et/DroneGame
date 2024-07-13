@@ -1,13 +1,17 @@
-#include "DGPlayer.h"
+#include "Turret.h"
+
 #include "DroneGame/Core/Health/HealthComponent.h"
 #include "DroneGame/Core/Weapon/WeaponComponent.h"
-#include "GameFramework/FloatingPawnMovement.h"
 
-ADGPlayer::ADGPlayer()
+ATurret::ATurret()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(FName("MovementComponent"));
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(FName("HealthComponent"));
 	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(FName("WeaponComponent"));
+}
+
+void ATurret::LookAt(const FVector& Point)
+{
+	HeadComponent->SetRelativeRotation((Point - HeadComponent->GetComponentLocation()).Rotation());
 }

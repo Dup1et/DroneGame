@@ -3,26 +3,28 @@
 #include "CoreMinimal.h"
 #include "DroneGame/Core/Pawn/BasePawn.h"
 #include "GameFramework/Pawn.h"
-#include "DGPlayer.generated.h"
+#include "Turret.generated.h"
 
 class UWeaponComponent;
 class UHealthComponent;
-class UFloatingPawnMovement;
 
 UCLASS()
-class DRONEGAME_API ADGPlayer : public ABasePawn
+class DRONEGAME_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
 
-public:
-	UPROPERTY(Category=Movement, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
-	TObjectPtr<UFloatingPawnMovement> MovementComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<USceneComponent> HeadComponent;
 
 	UPROPERTY(Category=Health, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UHealthComponent> HealthComponent;
 
 	UPROPERTY(Category=Weapon, VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent> WeaponComponent;
-	
-	ADGPlayer();
+
+public:
+	ATurret();
+
+	UFUNCTION(BlueprintCallable)
+	void LookAt(const FVector& Point);
 };
