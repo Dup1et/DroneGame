@@ -1,13 +1,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DroneGame/Core/Pawn/BasePawn.h"
 #include "GameFramework/Pawn.h"
 #include "DGPlayer.generated.h"
 
 class UFloatingPawnMovement;
 
-UCLASS(Blueprintable)
-class DRONEGAME_API ADGPlayer : public APawn
+UCLASS()
+class DRONEGAME_API ADGPlayer : public ABasePawn
 {
 	GENERATED_BODY()
 
