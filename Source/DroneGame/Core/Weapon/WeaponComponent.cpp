@@ -11,9 +11,9 @@ UWeaponComponent::UWeaponComponent()
 
 void UWeaponComponent::StartFire()
 {
-	IsNeedToFiring = true;
+	bIsNeedToFiring = true;
 	
-	if (IsFiring) return;
+	if (bIsFiring) return;
 	GetWorld()->GetTimerManager().SetTimer(
 		FireHandle,
 		this,
@@ -22,12 +22,12 @@ void UWeaponComponent::StartFire()
 		true,
 		0
 	);
-	IsFiring = true;
+	bIsFiring = true;
 }
 
 void UWeaponComponent::StopFire()
 {
-	IsNeedToFiring = false;
+	bIsNeedToFiring = false;
 }
 
 void UWeaponComponent::BeginPlay()
@@ -39,14 +39,14 @@ void UWeaponComponent::BeginPlay()
 
 void UWeaponComponent::HandleFire()
 {
-	if (!IsNeedToFiring)
+	if (!bIsNeedToFiring)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(FireHandle);
-		IsFiring = false;
+		bIsFiring = false;
 		return;
 	}
 	
-	if (CurrentAmmo == 0 && !IsInfiniteAmmo) return;
+	if (CurrentAmmo == 0 && !bIsInfiniteAmmo) return;
 
 	const auto Projectile = GetWorld()->SpawnActorDeferred<ABaseProjectile>(
 		ProjectileClass,
@@ -56,7 +56,7 @@ void UWeaponComponent::HandleFire()
 
 	Projectile->FinishSpawning(MuzzleComponent->GetComponentTransform());
 
-	if (IsInfiniteAmmo) return;
+	if (bIsInfiniteAmmo) return;
 	CurrentAmmo--;
 }
 

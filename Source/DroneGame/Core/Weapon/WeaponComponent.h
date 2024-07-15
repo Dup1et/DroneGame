@@ -25,7 +25,7 @@ class DRONEGAME_API UWeaponComponent : public UActorComponent
 	float MaxAmmo;
 
 	UPROPERTY(EditAnywhere)
-	bool IsInfiniteAmmo = false;
+	bool bIsInfiniteAmmo = false;
 
 	UPROPERTY(EditAnywhere)
 	FGameplayTagContainer TagsToDamage;
@@ -37,8 +37,8 @@ class DRONEGAME_API UWeaponComponent : public UActorComponent
 	TObjectPtr<USceneComponent> MuzzleComponent;
 
 	float CurrentAmmo = 0.f;
-	bool IsFiring = false;
-	bool IsNeedToFiring = false;
+	bool bIsFiring = false;
+	bool bIsNeedToFiring = false;
 	
 	FTimerHandle FireHandle;
 	
