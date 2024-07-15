@@ -13,7 +13,7 @@ class DRONEGAME_API ABaseProjectile : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Category=Movement, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(Category=Collision, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<USphereComponent> SphereComponent;
 
 	UPROPERTY(Category=Movement, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))

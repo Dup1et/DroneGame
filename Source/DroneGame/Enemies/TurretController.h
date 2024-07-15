@@ -12,15 +12,14 @@ UCLASS(Abstract, Blueprintable)
 class DRONEGAME_API ATurretController : public AAIController
 {
 	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
-	TObjectPtr<UAIPerceptionComponent> AIPerceptionComponent;
-
+	
+	UPROPERTY()
+	TObjectPtr<ATurret> ControlledTurret;
+	
 	int32 LastTargetId = -1;
 
-protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<ATurret> ControlledTurret;
+	UPROPERTY(Category=AIPreception, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<UAIPerceptionComponent> AIPerceptionComponent;
 
 public:
 	ATurretController();
