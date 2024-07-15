@@ -16,9 +16,6 @@ class DRONEGAME_API UWeaponComponent : public UActorComponent
 	float Damage;
 
 	UPROPERTY(EditAnywhere)
-	float ShootingRange;
-
-	UPROPERTY(EditAnywhere)
 	float ShotsPerSecond;
 
 	UPROPERTY(EditAnywhere)
@@ -27,7 +24,7 @@ class DRONEGAME_API UWeaponComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)
 	bool bIsInfiniteAmmo = false;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	FGameplayTagContainer TagsToDamage;
 
 	UPROPERTY(EditAnywhere)

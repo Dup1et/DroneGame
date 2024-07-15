@@ -13,8 +13,11 @@ class DRONEGAME_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
-	TObjectPtr<USceneComponent> HeadComponent;
+	UPROPERTY(EditAnywhere)
+	float AimRotationSpeed;
+
+	UPROPERTY(EditAnywhere)
+	float IdleRotationSpeed;
 
 	UPROPERTY(Category=Health, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UHealthComponent> HealthComponent;
@@ -22,9 +25,18 @@ class DRONEGAME_API ATurret : public ABasePawn
 	UPROPERTY(Category=Weapon, VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent> WeaponComponent;
 
+	UPROPERTY()
+	TWeakObjectPtr<AActor> Target;
+
 public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<USceneComponent> HeadComponent;
+	
 	ATurret();
 
-	UFUNCTION(BlueprintCallable)
-	void LookAt(const FVector& Point);
+	virtual void Tick(float DeltaSeconds) override;
+
+	void LockTarget(TWeakObjectPtr<AActor> InTarget);
+
+	void ReleaseTarget();
 };
