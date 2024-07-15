@@ -30,10 +30,20 @@ void UWeaponComponent::StopFire()
 	bIsNeedToFiring = false;
 }
 
+void UWeaponComponent::RefillAmmo(int AmmoAmount)
+{
+	AddAmmoInternal(AmmoAmount);
+}
+
+int UWeaponComponent::GetCurrentAmmo()
+{
+	return CurrentAmmo;
+}
+
 void UWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	CurrentAmmo = MaxAmmo;
 }
 
@@ -46,18 +56,18 @@ void UWeaponComponent::HandleFire()
 		return;
 	}
 	
-	if (CurrentAmmo == 0 && !bIsInfiniteAmmo) return;
+	if (CurrentAmmo <= 0 && !bIsInfiniteAmmo) return;
 
+	// can be improved using an object pooling if needed
 	const auto Projectile = GetWorld()->SpawnActorDeferred<ABaseProjectile>(
 		ProjectileClass,
 		MuzzleComponent->GetComponentTransform()
 	);
 	Projectile->OnActorHit.AddUniqueDynamic(this, &UWeaponComponent::HandleProjectileHit);
-
 	Projectile->FinishSpawning(MuzzleComponent->GetComponentTransform());
 
 	if (bIsInfiniteAmmo) return;
-	CurrentAmmo--;
+	AddAmmoInternal(-1.f);
 }
 
 bool UWeaponComponent::CanApplyDamage(AActor* Actor) const
@@ -96,5 +106,14 @@ void UWeaponComponent::HandleProjectileHit(
 	}
 
 	SelfActor->Destroy();
+}
+
+void UWeaponComponent::AddAmmoInternal(const int Amount)
+{
+	const auto OldAmmo = CurrentAmmo;
+	CurrentAmmo = FMath::Clamp(CurrentAmmo + Amount, 0, MaxAmmo);
+
+	if (OldAmmo == CurrentAmmo) return;
+	OnAmmoChange.Broadcast(OldAmmo, CurrentAmmo);
 }
 

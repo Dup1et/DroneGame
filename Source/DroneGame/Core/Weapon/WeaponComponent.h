@@ -5,6 +5,8 @@
 #include "Components/ActorComponent.h"
 #include "WeaponComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoChangeSignature, int, OldAmmo, int, NewAmmo);
+
 class ABaseProjectile;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -40,6 +42,10 @@ class DRONEGAME_API UWeaponComponent : public UActorComponent
 	FTimerHandle FireHandle;
 	
 public:
+
+	UPROPERTY(BlueprintAssignable)
+	FAmmoChangeSignature OnAmmoChange;
+	
 	UWeaponComponent();
 
 	UFUNCTION(BlueprintCallable)
@@ -47,6 +53,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StopFire();
+
+	UFUNCTION(BlueprintCallable)
+	void RefillAmmo(int AmmoAmount);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	int GetCurrentAmmo();
 
 protected:
 	virtual void BeginPlay() override;
@@ -63,4 +75,6 @@ private:
 		FVector NormalImpulse,
 		const FHitResult& Hit
 	);
+
+	void AddAmmoInternal(const int Amount);
 };

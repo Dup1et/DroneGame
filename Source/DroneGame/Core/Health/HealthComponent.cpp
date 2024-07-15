@@ -5,6 +5,16 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
+void UHealthComponent::Heal(const float HealthAmount)
+{
+	AddHealthInternal(HealthAmount);
+}
+
+float UHealthComponent::GetCurrentHealth()
+{
+	return CurrentHealth;
+}
+
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -21,14 +31,18 @@ void UHealthComponent::HandleDamageTaken(
 	AController* InstigatedBy,
 	AActor* DamageCauser
 ) {
+	AddHealthInternal(-Damage);
+}
+
+void UHealthComponent::AddHealthInternal(const float Amount)
+{
 	const auto OldHealth = CurrentHealth;
-	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.f, MaxHealth);
+	CurrentHealth = FMath::Clamp(CurrentHealth + Amount, 0.f, MaxHealth);
 
-	OnDamageTaken.Broadcast(OldHealth, CurrentHealth);
+	if (OldHealth == CurrentHealth) return;
+	OnHealthChange.Broadcast(OldHealth, CurrentHealth);
 
-	if (CurrentHealth <= 0.f)
-	{
-		OnDeath.Broadcast();
-	}
+	if (CurrentHealth > 0.f) return;
+	OnDeath.Broadcast();
 }
 

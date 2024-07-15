@@ -5,6 +5,7 @@
 #include "GameFramework/Pawn.h"
 #include "DGPlayer.generated.h"
 
+class UPickupCollectorComponent;
 class UWeaponComponent;
 class UHealthComponent;
 class UFloatingPawnMovement;
@@ -21,8 +22,11 @@ public:
 	UPROPERTY(Category=Health, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UHealthComponent> HealthComponent;
 
-	UPROPERTY(Category=Weapon, VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(Category=Weapon, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TObjectPtr<UWeaponComponent> WeaponComponent;
+
+	UPROPERTY(Category=Pickup, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<UPickupCollectorComponent> PickupCollectorComponent;
 	
 	ADGPlayer();
 };
