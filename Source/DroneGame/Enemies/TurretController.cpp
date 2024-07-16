@@ -43,6 +43,7 @@ void ATurretController::HandleTargetPerceptionInfoUpdate(const FActorPerceptionU
 	if (!UpdateInfo.Stimulus.WasSuccessfullySensed() && LastTargetId == UpdateInfo.TargetId)
 	{
 		ControlledTurret->ReleaseTarget();
+		LastTargetId = -1;
 		return;
 	}
 	
